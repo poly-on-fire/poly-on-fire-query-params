@@ -1,0 +1,53 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+
+<dom-module id="poly-on-fire-query-params-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+    <h2 hidden="[[wilma]]">Don't forget Wilma </h2>
+    <h2 hidden="[[fred]]">Don't forget Fred </h2>
+
+    <app-location query-params="{{queryParams}}"></app-location>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PolyOnFireQueryParamsApp extends Polymer.Element {
+      static get is() { return 'poly-on-fire-query-params-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'poly-on-fire-query-params-app'
+          },
+          queryParams: {
+              type: Object,
+              observer: '_paramsChanged'
+          },
+          fred: String,
+          wilma: String
+        };
+      }
+
+      _paramsChanged(queryParams) {
+        if (queryParams) {
+          let who = JSON.stringify(queryParams);
+          console.log(who);
+          this.prop1=who;
+          this.wilma = queryParams.partner;
+          this.fred = queryParams.name;
+        }
+      }
+    }
+
+    window.customElements.define(PolyOnFireQueryParamsApp.is, PolyOnFireQueryParamsApp);
+  </script>
+</dom-module>
